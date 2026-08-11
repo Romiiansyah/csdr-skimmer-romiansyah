@@ -45,8 +45,8 @@ void printOutput(FILE *outFile, int i, unsigned int freq, unsigned int printChar
   unsigned char *p = outReader[i]->getReadPointer();
   for(int j=0 ; j<n ; ++j)
   {
-    // Filter out zeros, if any
-    if(!p[j]) continue;
+    // Skip unprintable characters
+    if((p[j]<0x20) || (p[j]>0x7E)) continue;
 
     switch(outState[i] & 0xFF)
     {

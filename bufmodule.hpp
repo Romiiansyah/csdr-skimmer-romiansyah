@@ -12,6 +12,10 @@ template <typename T, typename U> class BufferedModule: public Module<T, U>
     BufferedModule(Module<T, U> *module, size_t bufferSize);
     ~BufferedModule();
 
+    // Prevent pointer duplication on copy
+    BufferedModule(const BufferedModule &) = delete;
+    BufferedModule& operator =(const BufferedModule &) = delete;
+
     bool canProcess() override { return(module->canProcess()); }
     void process() override { module->process(); }
 

@@ -266,7 +266,7 @@ int main(int argc, char *argv[])
     avgPower += (accPower - avgPower) * inputStep / sampleRate / AVG_SECONDS;
 
     // Decode by channel
-    for(j=0 ; j<numChannels-2 ; ++j)
+    for(j=0 ; j<(int)numChannels-2 ; ++j)
     {
       float power0 = fftOut[j][0];
       float power1 = fftOut[j+2][0];
