@@ -359,7 +359,7 @@ int main(int argc, char *argv[])
   }
 
   // Final printout
-  for(j=0 ; j<numChannels-2 ; ++j)
+  for(j=0 ; j<(int)numChannels-2 ; ++j)
     printOutput(outFile, j, round((j + 1.5) * bandWidth / 2.0), 1);
 
   // Close files
