@@ -45,6 +45,9 @@ void printOutput(FILE *outFile, int i, unsigned int freq, unsigned int printChar
   unsigned char *p = outReader[i]->getReadPointer();
   for(int j=0 ; j<n ; ++j)
   {
+    // Filter out zeros, if any
+    if(!p[j]) continue;
+
     switch(outState[i] & 0xFF)
     {
       case '\0':
@@ -247,7 +250,7 @@ int main(int argc, char *argv[])
     for(j=0, maxPower=0.0 ; j<numChannels ; ++j)
     {
       float v = fftOut[j][0];
-      int scale = floor(log(v));
+      int scale = v>0.0f? floor(log(v)) : 0;
       scale = scale<0? 0 : scale+1>=NUM_SCALES? NUM_SCALES-1 : scale+1;
       maxPower = fmax(maxPower, v);
       scales[scale].power += v;
@@ -279,7 +282,7 @@ int main(int argc, char *argv[])
 //fprintf(stderr, "accPower = %f (%d buckets, %d%%)\n", accPower/n, i+1, 100*n*2/inputStep);
 
     // Maintain rolling average over AVG_SECONDS
-    accPower /= n;
+    if(n) accPower /= n;
     avgPower += (accPower - avgPower) * inputStep / sampleRate / AVG_SECONDS;
 
     // Decode by channel
